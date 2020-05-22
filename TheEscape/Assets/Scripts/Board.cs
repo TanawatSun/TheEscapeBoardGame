@@ -81,5 +81,13 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void AwakeBoard()
+    {
+        if (m_playerNode != null)
+        {
+            m_playerNode.AwakeNodes();
+        }
+    }
+
 
 }

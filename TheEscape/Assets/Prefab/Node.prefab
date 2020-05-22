@@ -127,13 +127,13 @@ MonoBehaviour:
   geometry: {fileID: 4775327687395773293}
   scaleTime: 0.3
   easeType: 15
-  startScal: 0
   delayTime: 0.75
   linkPrefab: {fileID: 7383911590962671236, guid: 2fd2440c9c5b0fc43837320b7b2d9634,
     type: 3}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  isNodeGoal: 0
 --- !u!1 &6707144634645017286
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3363050320848979510}
   - component: {fileID: 3359277171344208669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

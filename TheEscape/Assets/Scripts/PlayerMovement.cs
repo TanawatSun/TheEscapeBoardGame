@@ -18,14 +18,9 @@ public class PlayerMovement : MonoBehaviour
         m_board = Object.FindObjectOfType<Board>().GetComponent<Board>();
         m_gameManager = Object.FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
-    private void Update()
+    private void Start()
     {
         UpdateBoard();
-
-        if (m_board != null && m_board.PlayerNode != null && m_gameManager.IsGamePlaying)
-        {
-            m_board.PlayerNode.AwakeNodes();
-        }
     }
 
     public void Move(Vector3 destinationPos, float delayTime = 0.25f)
