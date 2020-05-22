@@ -19,10 +19,11 @@ public class Node : MonoBehaviour
     [SerializeField] GameObject geometry;
     [SerializeField] float scaleTime = 0.3f;
     [SerializeField] iTween.EaseType easeType = iTween.EaseType.easeInExpo;
-    [SerializeField] bool startScal;
     [SerializeField] float delayTime = 1f;
     [SerializeField] GameObject linkPrefab;
     [SerializeField] LayerMask obstacleLayer;
+
+    public bool isNodeGoal = false;
 
     private void Awake()
     {

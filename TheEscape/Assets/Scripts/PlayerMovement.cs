@@ -10,17 +10,19 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float iTweenDelay = 0f;
+    GameManager m_gameManager;
 
     Board m_board;
     private void Awake()
     {
         m_board = Object.FindObjectOfType<Board>().GetComponent<Board>();
+        m_gameManager = Object.FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
-    private void Start()
+    private void Update()
     {
         UpdateBoard();
 
-        if (m_board != null && m_board.PlayerNode != null)
+        if (m_board != null && m_board.PlayerNode != null && m_gameManager.IsGamePlaying)
         {
             m_board.PlayerNode.AwakeNodes();
         }

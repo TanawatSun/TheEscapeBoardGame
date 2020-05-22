@@ -94,6 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   borderWidth: 0.07
   scaleTime: 1
-  lineThickness: 0.5
+  lineThickness: 0.2
   delayTime: 0
   easeType: 14
