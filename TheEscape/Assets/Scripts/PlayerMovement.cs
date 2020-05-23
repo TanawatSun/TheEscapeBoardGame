@@ -19,6 +19,7 @@ public class PlayerMovement : Movement
     {
         yield return StartCoroutine(base.MoveDelay(destinationPos,delayTime));
         UpdateBoard();
+        base.finishMoveEvent.Invoke();
     }
 
     void UpdateBoard()

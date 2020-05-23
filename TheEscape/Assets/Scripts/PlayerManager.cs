@@ -4,19 +4,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMovement))]
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : TurnBaseManager
 {
     public PlayerInput playerInput;
     public PlayerMovement playerMovement;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
         playerInput.InputEnable = true;
     }
     void Update()
     {
-        if (playerMovement.isMove)
+        if (playerMovement.isMove || m_gameManager.Currenturn!=Turn.Player)
         {
             return;
         }

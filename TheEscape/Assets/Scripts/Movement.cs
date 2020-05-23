@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] Vector3 destination;
+    public UnityEvent finishMoveEvent;
+
+    public Vector3 destination;
     public bool isMove = false;
+    public float rotationTime = 0.5f;
+    public bool faceDestination = false;
     [SerializeField] iTween.EaseType easeType = iTween.EaseType.easeOutQuint;
 
     [SerializeField] float moveSpeed = 2f;
@@ -49,6 +54,10 @@ public class Movement : MonoBehaviour
     {
         isMove = true;
         destination = destinationPos;
+        if (faceDestination)
+        {
+            FacingDiraction();
+        }
         yield return new WaitForSeconds(delayTime);
 
         iTween.MoveTo(gameObject, iTween.Hash(
@@ -97,6 +106,21 @@ public class Movement : MonoBehaviour
         {
             m_currentNode = m_board.FindNode(transform.position);
         }
+    }
+
+    protected void FacingDiraction()
+    {
+        Vector3 relativePos = destination - transform.position;
+        Quaternion newRotation = Quaternion.LookRotation(relativePos, Vector3.up);
+
+        float newY = newRotation.eulerAngles.y;
+
+        iTween.RotateTo(gameObject, iTween.Hash(
+                "y", newY,
+                "delay", 0f,
+                "easetype", easeType,
+                "time",rotationTime
+            ));
     }
 
 }

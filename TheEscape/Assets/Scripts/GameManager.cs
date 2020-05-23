@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Linq;
+
+[System.Serializable]
+public enum Turn{
+
+    Player,
+    Enemy
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +21,12 @@ public class GameManager : MonoBehaviour
     public UnityEvent startLevelEvent;
     public UnityEvent playLevelEvent;
     public UnityEvent endLevelEvent;
+
+    List<EnemyManager> m_enemies;
+    Turn m_currenturn = Turn.Player;
+
+    public Turn Currenturn { get { return m_currenturn; } }
+
 
     bool m_hasLevelStarted = false;
     public bool HasLevelStarted { get { return m_hasLevelStarted; }set { m_hasLevelStarted = value; } }
@@ -30,6 +44,8 @@ public class GameManager : MonoBehaviour
     {
         m_board = Object.FindObjectOfType<Board>().GetComponent<Board>();
         m_playerManager = Object.FindObjectOfType<PlayerManager>().GetComponent<PlayerManager>();
+        EnemyManager[] enemy = GameObject.FindObjectsOfType<EnemyManager>() as EnemyManager[];
+        m_enemies = enemy.ToList();  
     }
     private void Start()
     {
@@ -115,5 +131,54 @@ public class GameManager : MonoBehaviour
             return (m_board.PlayerNode == m_board.GoalNode);
         }
         return false;
+    }
+
+    public void UpdateTurn()
+    {
+        if (m_currenturn == Turn.Player && m_playerManager != null)
+        {
+            if (m_playerManager.IsTurnComplete)
+            {
+                PlayEnemyTurn();
+            }
+        }
+        else if(m_currenturn == Turn.Enemy)
+        {
+            if (IsEnemyTurnComplete())
+            {
+                PlayPlayerTurn();
+            }
+
+        }
+    }
+
+    void PlayPlayerTurn()
+    {
+        m_currenturn = Turn.Player;
+        m_playerManager.IsTurnComplete = false;
+    }
+    void PlayEnemyTurn()
+    {
+        m_currenturn = Turn.Enemy;
+        foreach (EnemyManager enemy in m_enemies)
+        {
+            if (enemy!=null)
+            {
+                enemy.IsTurnComplete = false;
+                enemy.PlayTurn();
+            }
+        }
+    }
+
+    bool IsEnemyTurnComplete()
+    {
+        foreach(EnemyManager enemy in m_enemies)
+        {
+            if (!enemy.IsTurnComplete)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

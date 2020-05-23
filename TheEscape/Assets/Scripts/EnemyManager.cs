@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+[RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(EnemyEye))]
+public class EnemyManager : TurnBaseManager
 {
-    // Start is called before the first frame update
-    void Start()
+    EnemyMovement m_enemyMovement;
+    EnemyEye m_enemyEye;
+    Board m_board;
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        m_board = Object.FindObjectOfType<Board>().GetComponent<Board>();
+        m_enemyEye = GetComponent<EnemyEye>();
+        m_enemyMovement = GetComponent<EnemyMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayTurn()
     {
+        StartCoroutine(PlayerTurnRoutine());
+    }
+
+    IEnumerator PlayerTurnRoutine()
+    {
+        m_enemyEye.UpdateEye();
+        yield return new WaitForSeconds(0f);
+        m_enemyMovement.MoveOneTurn();
         
     }
 }
