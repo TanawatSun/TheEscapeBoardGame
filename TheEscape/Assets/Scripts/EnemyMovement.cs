@@ -5,7 +5,8 @@ using UnityEngine;
 public enum MoveType
 {
     Stand,
-    Patrol
+    Patrol,
+    Spinner
 
 }
 
@@ -37,6 +38,9 @@ public class EnemyMovement : Movement
                 break;
             case MoveType.Stand:
                 Stand();
+                break;
+            case MoveType.Spinner:
+                Spin();
                 break;
         }
         
@@ -83,6 +87,21 @@ public class EnemyMovement : Movement
     IEnumerator StandCoroutine()
     {
         yield return new WaitForSeconds(standTime);
+        base.finishMoveEvent.Invoke();
+    }
+
+    void Spin()
+    {
+        StartCoroutine(SpinRoutine());
+    }
+
+    IEnumerator SpinRoutine()
+    {
+        Vector3 localForward = new Vector3(0f, 0f, Board.spacing);
+        destination = transform.TransformVector(localForward * -1f) + transform.position;
+
+        FacingDiraction();
+        yield return new WaitForSeconds(rotationTime);
         base.finishMoveEvent.Invoke();
     }
 }

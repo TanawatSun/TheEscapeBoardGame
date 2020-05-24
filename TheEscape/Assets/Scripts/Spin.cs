@@ -7,6 +7,6 @@ public class Spin : MonoBehaviour
     
     void Update()
     {
-        transform.Rotate(new Vector3(0f, 20f, 0f) * Time.deltaTime);
+        //transform.Rotate(new Vector3(0f, 20f, 0f) * Time.deltaTime);
     }
 }

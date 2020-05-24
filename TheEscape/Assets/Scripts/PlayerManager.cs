@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerDead))]
 public class PlayerManager : TurnBaseManager
 {
     public PlayerInput playerInput;
     public PlayerMovement playerMovement;
+    public UnityEvent deadEvent;
+
     protected override void Awake()
     {
         base.Awake();
@@ -46,5 +50,13 @@ public class PlayerManager : TurnBaseManager
                 playerMovement.MoveBackword();
             }
         }
+    }
+
+    public void Die()
+    {
+        if (deadEvent != null)
+        {
+            deadEvent.Invoke();
+        } 
     }
 }

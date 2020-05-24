@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour
 {
     Board m_board;
     PlayerManager m_playerManager;
+    EnemyMovement m_enemy;
 
     public UnityEvent setupEvent;
     public UnityEvent startLevelEvent;
     public UnityEvent playLevelEvent;
     public UnityEvent endLevelEvent;
+    public UnityEvent loseLevelEvent;
 
     List<EnemyManager> m_enemies;
     Turn m_currenturn = Turn.Player;
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     {
         m_board = Object.FindObjectOfType<Board>().GetComponent<Board>();
         m_playerManager = Object.FindObjectOfType<PlayerManager>().GetComponent<PlayerManager>();
+        m_enemy = Object.FindObjectOfType<EnemyMovement>().GetComponent<EnemyMovement>();
         EnemyManager[] enemy = GameObject.FindObjectsOfType<EnemyManager>() as EnemyManager[];
         m_enemies = enemy.ToList();  
     }
@@ -93,11 +96,28 @@ public class GameManager : MonoBehaviour
         while (!m_isGameOver)
         {
             yield return null;
-            m_isGameOver = IsWin();            
+            m_isGameOver = IsWin();  
+            
         }
         Debug.Log("Win");
-
     }
+
+    public void LoseLevel()
+    {
+        StartCoroutine(LoseLevelRoutine());
+    }
+
+    IEnumerator LoseLevelRoutine()
+    {
+        m_isGameOver = true;
+        yield return new WaitForSeconds(2f);
+        if (loseLevelEvent != null)
+        {
+            loseLevelEvent.Invoke();
+        }
+        yield return new WaitForSeconds(2f);
+    }
+
     IEnumerator EndLevelRoutine()
     {
         m_playerManager.playerInput.InputEnable = false;
@@ -180,5 +200,15 @@ public class GameManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene("Level-2");
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Level-1");
     }
 }

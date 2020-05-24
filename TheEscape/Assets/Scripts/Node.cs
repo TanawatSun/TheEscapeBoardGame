@@ -37,12 +37,12 @@ public class Node : MonoBehaviour
         {
             geometry.transform.localScale = Vector3.zero;
         }
-
+        AwakeNodes();
         if (m_board != null)
         {
             m_neighborsNode = FindNeighbors(m_board.AllNode);
         }
-
+        
     }
 
     public void ShowGeometry()
